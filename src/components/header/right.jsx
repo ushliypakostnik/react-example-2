@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { Dropdown } from 'antd';
+import '../../libraries/dropdown.css';
+
+import { Drawer } from 'antd';
+import '../../libraries/drawer.css';
+
 import GUIDELINE from '../../constants';
+import { rightMenuContent } from '../../config';
 
 import Button from '../utils/button';
 import IconButton from '../utils/iconbutton';
 import Ava from '../utils/ava';
+import RightMenu from './rightmenu';
 
 import icon from '../../images/header/btn-1.png';
 import icon_2x from '../../images/header/btn-1_2x.png';
 import plus from '../../images/pieces/plus.png';
 import plus_2x from '../../images/pieces/plus_2x.png';
-import open from '../../images/header/open.png';
-import open_2x from '../../images/header/open_2x.png';
+import open from '../../images/pieces/open.png';
+import open_2x from '../../images/pieces/open_2x.png';
+import open_hover from '../../images/pieces/open_hover.png';
+import open_hover_2x from '../../images/pieces/open_hover_2x.png';
+import close from '../../images/pieces/close.png';
+import close_2x from '../../images/pieces/close_2x.png';
+import close_hover from '../../images/pieces/close_hover.png';
+import close_hover_2x from '../../images/pieces/close_hover_2x.png';
 
 const Wrapper = styled.div`
   width: 473px;
@@ -22,7 +36,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   float: right;
   padding-top: 2px;
-  height: ${GUIDELINE.header_height}px;
+  height: ${(GUIDELINE.header_height - 2)}px;
 
   @media (max-width: ${GUIDELINE.breackpoint_xs_max}) {
     width: calc(100vmin - 90px);
@@ -31,13 +45,13 @@ const Wrapper = styled.div`
     height: ${GUIDELINE.header_height_mobile}px;
   }
 
-  .sc-fjdhpX {
+  .desktop-button {
     @media (max-width: ${GUIDELINE.breackpoint_xs_max}) {
       display: none;
     }
   }
 
-  .sc-kAzzGY {
+  .mobile-button {
     @media (min-width: ${GUIDELINE.breackpoint_sm}) {
       display: none;
     }
@@ -49,7 +63,7 @@ const Icon = styled.div`
   top: 13px;
   width: 17px;
   height: 17px;
-  color:  ${GUIDELINE.color_white};
+  color: ${GUIDELINE.color_white};
   background: url(${icon}) 50% 50% no-repeat;
 
   @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
@@ -60,12 +74,12 @@ const Icon = styled.div`
     background-size: cover;
   }
 
-  .sc-kAzzGY & {
-    @media (max-width: ${GUIDELINE.breackpoint_xs_max}) {
-      position: static;
-      display: inline-block;
-      vertical-aling: middle;
-    }
+  @media (max-width: ${GUIDELINE.breackpoint_xs_max}) {
+    position: relative;
+    top: 4px;
+    left: 0;
+    display: inline-block;
+    vertical-aling: middle;
   }
 `
 const User = styled.div`
@@ -101,34 +115,27 @@ const Userprice = styled.div`
   font-weight: ${GUIDELINE.fontweight_sans_regular};
   line-height:  ${GUIDELINE.lineheight_medium}px;
 `
-const Deposit = styled.a`
+const Plus = styled.span`
+  display: inline-block;
   width: 23px;
   height: 23px;
-  border-radius: 50%;
   background: url(${plus}) 50% 50% no-repeat;
-  background-color: ${GUIDELINE.color_success};
-
-  &:hover {
-    background-color: ${GUIDELINE.color_green_light};
-  }
 
   @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
     only screen and (-moz-min-device-pixel-ratio: 1.5),
     only screen and (-o-min-device-pixel-ratio: 3/2),
     only screen and (min-device-pixel-ratio: 1.5) {
     background: url(${plus_2x}) 50% 50% no-repeat;
-    background-color: ${GUIDELINE.color_success};
     background-size: 12px 12px;
-
-    &:hover {
-      background-color: ${GUIDELINE.color_green_light};
-    }
   }
 `
-const Open = styled.a`
+const Trigger = styled.a`
   display: inline-block;
   width: 21px;
-  height: 9px;
+  height: 21px;
+  transition: background ${GUIDELINE.transition_duration} ${GUIDELINE.transition_timingfunction};
+`
+const Open = styled(Trigger)`
   background: url(${open}) 50% 50% no-repeat;
 
   @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
@@ -138,31 +145,154 @@ const Open = styled.a`
     background: url(${open_2x}) 50% 50% no-repeat;
     background-size: 21px 9px;
   }
+
+  &:hover {
+    background: url(${open_hover}) 50% 50% no-repeat;
+
+    @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+      only screen and (-moz-min-device-pixel-ratio: 1.5),
+      only screen and (-o-min-device-pixel-ratio: 3/2),
+      only screen and (min-device-pixel-ratio: 1.5) {
+      background: url(${open_hover_2x}) 50% 50% no-repeat;
+      background-size: 21px 9px;
+    }
+  }
+`
+const Close = styled(Trigger)`
+  background: url(${close}) 50% 50% no-repeat;
+
+  @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+    only screen and (-moz-min-device-pixel-ratio: 1.5),
+    only screen and (-o-min-device-pixel-ratio: 3/2),
+    only screen and (min-device-pixel-ratio: 1.5) {
+    background: url(${close_2x}) 50% 50% no-repeat;
+    background-size: 21px 21px;
+  }
+
+  &:hover {
+    background: url(${close_hover}) 50% 50% no-repeat;
+
+    @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+      only screen and (-moz-min-device-pixel-ratio: 1.5),
+      only screen and (-o-min-device-pixel-ratio: 3/2),
+      only screen and (min-device-pixel-ratio: 1.5) {
+      background: url(${close_hover_2x}) 50% 50% no-repeat;
+      background-size: 21px 21px;
+    }
+  }
+`
+const DropdownWrapper = styled.span`
+  @media (max-width: ${GUIDELINE.breackpoint_xs_max}) {
+    display: none;
+  }
+`
+const DrawerWrapper = styled.span`
+  @media (min-width: ${GUIDELINE.breackpoint_sm}) {
+    display: none;
+  }
 `
 
-const Right = () => (
-  <Wrapper>
-    <Button
-      text="Мои ставки"
-      color={ `${GUIDELINE.color_white}` }
-      background={ `${GUIDELINE.color_blue_gray}` }
-      ><Icon />
-    </Button>
-    <IconButton
-      color={ `${GUIDELINE.color_white}` }
-      background={ `${GUIDELINE.color_blue_gray}` }
-      ><Icon />
-    </IconButton>
-    <User>
-      <Ava />
-      <Userinfo>
-        <Username>Виктор Павлов</Username>
-        <Userprice>8 608.50 P</Userprice>
-      </Userinfo>
-    </User>
-    <Deposit href="#" />
-    <Open href="#" />
-  </Wrapper>
+const menu = (
+  <RightMenu items={ rightMenuContent } />
 );
+
+class Right extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dropdownIsOpen: false,
+      rightPanelIsOpen: false,
+    };
+  }
+
+  dropdownToggle = () => {
+    this.setState({
+      dropdownIsOpen: !this.state.dropdownIsOpen,
+    });
+  };
+
+  onClose = () => {
+    this.setState({
+      rightPanelIsOpen: false
+    });
+  };
+
+  render() {
+    const { dropdownIsOpen, rightPanelIsOpen } = this.state;
+
+    return (
+      <Wrapper>
+        <Button
+          className="desktop-button"
+          text="Мои ставки"
+          color={ `${GUIDELINE.color_white}` }
+          background={ `${GUIDELINE.color_blue_gray}` }
+          background_hover={ `${GUIDELINE.color_blue_gray_dark}` }
+          ><Icon />
+        </Button>
+        <IconButton
+          className="mobile-button"
+          size="40px"
+          radius="50%"
+          color={ `${GUIDELINE.color_white}` }
+          background={ `${GUIDELINE.color_blue_gray}` }
+          background_hover={ `${GUIDELINE.color_blue_gray_dark}` }
+          ><Icon />
+        </IconButton>
+        <User>
+          <Ava />
+          <Userinfo>
+            <Username>Виктор Павлов</Username>
+            <Userprice>8 608.50 P</Userprice>
+          </Userinfo>
+        </User>
+        <IconButton
+          size="23px"
+          radius="50%"
+          color={ `${GUIDELINE.color_white}` }
+          background={ `${GUIDELINE.color_success}` }
+          background_hover={ `${GUIDELINE.color_green_light}` }
+          ><Plus />
+        </IconButton>
+        <DropdownWrapper>
+          <Dropdown
+            overlayClassName="dropdown-in-header-right"
+            overlay={ menu }
+            trigger={ ['click'] }
+            onVisibleChange={(visible) =>
+              this.setState({
+                dropdownIsOpen: visible,
+              })
+            }>
+            { dropdownIsOpen ?
+              <Close href="#" onClick={() => {this.dropdownToggle()}} /> :
+              <Open href="#" onClick={() => {this.dropdownToggle()}} />
+            }
+          </Dropdown>
+        </DropdownWrapper>
+        <DrawerWrapper>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/anchor-has-content */}
+          <Open
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              this.setState({ rightPanelIsOpen: !rightPanelIsOpen });
+            }}
+            aria-label="Open Menu" />
+          <Drawer
+            className={ 'panel-right' }
+            title={ null }
+            placement={ 'right' }
+            closable={ true }
+            onClose={ this.onClose }
+            visible={ rightPanelIsOpen }
+            width="240px"
+          >{ menu }</Drawer>
+        </DrawerWrapper>
+      </Wrapper>
+    );
+  }
+}
 
 export default Right;

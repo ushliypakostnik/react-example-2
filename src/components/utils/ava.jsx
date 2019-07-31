@@ -29,7 +29,6 @@ const Badge = styled.div`
     background-size: cover;
   }
 `
-
 const Ava = () => (
   <Wrapper>
     <Badge />

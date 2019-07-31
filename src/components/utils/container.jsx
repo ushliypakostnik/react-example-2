@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import GUIDELINE from '../../constants';
@@ -27,5 +28,10 @@ const Container = props => (
     {props.children}
   </Wrapper>
 );
+
+Container.propTypes = {
+  props: PropTypes.node,
+};
+
 
 export default Container;

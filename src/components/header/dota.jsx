@@ -21,6 +21,7 @@ const Element = styled.a`
   width: 100%;
   height: 100%;
   background: url(${dota}) 50% 50% no-repeat;
+  transition: background ${GUIDELINE.transition_duration} ${GUIDELINE.transition_timingfunction};
 
   @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
     only screen and (-moz-min-device-pixel-ratio: 1.5),
@@ -45,7 +46,7 @@ const Element = styled.a`
 
 const Dota = () => (
   <Wrapper>
-    <Element as="a" href="#" />
+    <Element href="#" />
   </Wrapper>
 );
 

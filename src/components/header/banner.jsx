@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import GUIDELINE from '../../constants';
@@ -9,7 +10,7 @@ import icon2 from '../../images/header/banner-2.png';
 import icon2_2x from '../../images/header/banner-2_2x.png';
 
 const Hover = styled.div`
-  visibility: hidden;
+  opacity: 0;
   position: absolute;
   left: 0;
   right: 0;
@@ -17,8 +18,8 @@ const Hover = styled.div`
   height: 2px;
   width: 100%;
   background:  ${props => props.background};
+  transition: opacity ${GUIDELINE.transition_duration} ${GUIDELINE.transition_timingfunction};
 `
-
 const Wrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -31,7 +32,7 @@ const Wrapper = styled.div`
 
   &:hover {
     ${Hover} {
-      visibility: visible;
+      opacity: 1;
     }
   }
 
@@ -122,15 +123,21 @@ const TextSmall = styled(Text)`
 const Logo = ({color, textLarge, textSmall}) => (
   <Wrapper>
     <Element as="a" href="#">
-      <IconWrapper background={color}>
+      <IconWrapper background={ color }>
         { color === GUIDELINE.color_blue_light && <Icon1 /> }
         { color === GUIDELINE.color_blue && <Icon2 /> }
       </IconWrapper>
-      <TextLarge color={color}>{textLarge}</TextLarge>
-      <TextSmall color={color}>{textSmall}</TextSmall>
+      <TextLarge color={ color }>{ textLarge }</TextLarge>
+      <TextSmall color={ color }>{ textSmall }</TextSmall>
     </Element>
-    <Hover background={color} />
+    <Hover background={ color } />
   </Wrapper>
 );
+
+Logo.propTypes = {
+  color: PropTypes.string.isRequired,
+  textLarge: PropTypes.string.isRequired,
+  textSmall: PropTypes.string.isRequired,
+};
 
 export default Logo;

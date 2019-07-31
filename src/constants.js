@@ -21,7 +21,7 @@ const GUIDELINE = {
   breackpoint_lg: '1250px',
   breackpoint_md_max: '1249px',
   breackpoint_md: '1050px',
-  breackpoint_sm_max: '1149px',
+  breackpoint_sm_max: '1049px',
   breackpoint_sm: '761px',
   breackpoint_xs_max: '760px',
   breackpoint_xs: '460px',
@@ -29,11 +29,17 @@ const GUIDELINE = {
 
   // Colors
   color_white: '#ffffff',
-  color_gray_lighten: '#fefefe',
 
+  color_dark: '#0f1118',
+  color_gray_lighten: '#fefefe',
+  color_gray_light: '#f6f7f9',
+
+  color_blue_gray_light: '#7d8ea0',
   color_blue_gray: '#6d809a',
+  color_blue_gray_dark: '#333f51',
 
   color_blue: '#0075f3',
+  color_blue_02: '#0b76ff',
   color_blue_light: '#2db2f0',
   color_blue_dark: '#27303b',
 
@@ -41,6 +47,8 @@ const GUIDELINE = {
   color_green_light: '#68f1ad',
 
   color_text: '#303441',
+  color_text_light: '#4c5768',
+
   color_border: '#eff2f5',
 
   // Typography
@@ -53,12 +61,19 @@ const GUIDELINE = {
   fontsize_normal: 16,
   fontsize_msmall: 15,
   fontsize_small: 14,
+
+  // Effects
+  transition_duration: '0.2s',
+  transition_timingfunction: 'ease-out',
+  transition_delay: '0s',
 }
 
 Object.assign(GUIDELINE, {
   color_link: GUIDELINE.color_blue,
   color_link_hover: GUIDELINE.color_blue,
   color_placeholder: GUIDELINE.color_border,
+
+  color_active: GUIDELINE.color_blue,
 
   color_success: GUIDELINE.color_green,
 

@@ -4,17 +4,24 @@ import { createGlobalStyle } from 'styled-components';
 import GUIDELINE from '../constants';
 
 import Header from './header/header';
+import Subheader from './subheader/subheader';
 
 const GlobalStyle = createGlobalStyle`
+  #root {
+    height: 100vh;
+  }
+
   body {
     margin: 0
     padding: 0;
+    height: 100vh;
     color: ${GUIDELINE.color_text};
-    background-color: ${GUIDELINE.color_gray_lighten};
+    background-color: ${GUIDELINE.color_text};
     backface-visibility: hidden;
     font-size:  ${GUIDELINE.fontsize_small}px;
     line-height: ${GUIDELINE.lineheight_small}px;
     letter-spacing: ${GUIDELINE.letterspacing_normal};
+    overflow-x: hidden;
   }
 
   a {
@@ -76,6 +83,7 @@ const App = () => (
   <Fragment>
     <GlobalStyle />
     <Header />
+    <Subheader />
   </Fragment>
 );
 
